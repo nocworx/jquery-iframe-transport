@@ -215,12 +215,17 @@
                 type = textarea && textarea.getAttribute("data-type") || null,
                 status = textarea && textarea.getAttribute("data-status") || 200,
                 statusText = textarea && textarea.getAttribute("data-statusText") || "OK",
-                content = {
-                  html: root.innerHTML,
-                  text: type ?
-                    textarea.value :
-                    root ? (root.textContent || root.innerText) : null
-                };
+                content = {};
+
+              if (root) {
+                root = root.getElementsByTagName('body')[0] || root;
+              }
+              content = {
+                html: root.innerHTML,
+                text: type ?
+                  textarea.value :
+                  root ? (root.textContent || root.innerText) : null
+              };
               cleanUp();
               completeCallback(status, statusText, content, type ?
                 ("Content-Type: " + type) :
